@@ -11,7 +11,7 @@
 - 使用 Helmfile 部署 Ingress（建立 NEG）
 - 支援自定義 NAT、L7 Load Balancer（含固定 IP 與自訂網域）
 - 使用 Terraform Module 與變數進行可重用設計
-- State 儲存於 GCS（Bucket: `sre-practice-888-tfstates`, Prefix: `armageddon-patrick`）
+- State 儲存於 GCS
 
 ---
 
@@ -20,13 +20,9 @@
 - GKE Cluster 應先建置，再執行 Helmfile 安裝 ingress，用於建立 NEG。
 - 請務必使用最新版 Google Terraform Provider。
 - 每個命名空間需對應獨立 Node Pool，並設定合適的 Label/Taint。
-- 所有 IP 須透過 `data` 來源取得，不得硬編碼。
-- GKE Cluster 及 Node Pool 請參考 fingergame monitoring 專案設定，不應包含名稱中帶有 `midtown` 的 Pool。
 - NAT 和 Load Balancer 須使用預先保留的靜態 IP，並於 Terraform Output 中明確顯示。
-- Load Balancer 須綁定網域 `patrick.crow.idv.tw`，部署完成後請回報 IP 以設定 DNS。
+- Load Balancer 須綁定網域，部署完成後請回報 IP 以設定 DNS。
 - NAT IP 驗證方式請參閱下方說明。
-
-> ⚠ **請務必於下班前關閉 GKE Cluster，以避免產生額外費用。**
 
 ---
 
@@ -50,8 +46,8 @@ Terraform 使用的 Service Account 須具備以下 IAM 角色：
 可使用以下指令查詢 IAM 權限：
 
 ```bash
-gcloud config set project sre-practice-888
-gcloud projects get-iam-policy sre-practice-888  --flatten="bindings[].members" --format='table(bindings.role)' --filter="bindings.members:serviceAccount:terraform-publisher@sre-practice-888.iam.gserviceaccount.com"
+gcloud config set project PROJECT_NAME
+gcloud projects get-iam-policy PROJECT_NAME  --flatten="bindings[].members" --format='table(bindings.role)' --filter="bindings.members:serviceAccount:SERVICEACCOUNT_NAME"
 ```
 
 ---
@@ -84,7 +80,7 @@ gcloud projects get-iam-policy sre-practice-888  --flatten="bindings[].members" 
 
 ## 網域與 Load Balancer 設定
 
-- Load Balancer 綁定網域名稱：`patrick.crow.idv.tw`
+- Load Balancer 綁定網域名稱
 - 部署完成後，請通知 DNS 管理員更新 A Record 至 LB 公網 IP
 - 後續可視需求加入 HTTPS 支援（建議使用 Let's Encrypt）
 
@@ -92,9 +88,7 @@ gcloud projects get-iam-policy sre-practice-888  --flatten="bindings[].members" 
 
 ## 專案狀態儲存
 
-- Terraform State 儲存於 GCS：
-  - Bucket: `sre-practice-888-tfstates`
-  - Prefix: `armageddon-patrick`
+- Terraform State 儲存於 GCS
 
 請確認具備 `roles/storage.admin` 權限以便讀寫該 Bucket。
 
@@ -104,8 +98,6 @@ gcloud projects get-iam-policy sre-practice-888  --flatten="bindings[].members" 
 
 - 本模板支援以變數方式靈活配置命名空間、節點池 Label/Taint 與其他參數，適合擴展至其他專案使用。
 - 若有修改 GKE 或 Terraform Provider，請優先測試再合併主分支。
-
-> 📌 **安全提醒：請於每日工作結束前手動銷毀 GKE Cluster，以避免資源空轉與額外費用。**
 
 ---
 
