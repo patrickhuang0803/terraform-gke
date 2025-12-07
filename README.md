@@ -1,4 +1,4 @@
-# terraform-stack
+# terraform-gke
 
 本專案為使用 [Terraform](https://www.terraform.io/) 建立具備 **Private GKE Cluster** 架構的基礎設施模板，涵蓋 GKE、NAT、負載平衡器（Load Balancer）等元件，並支援多命名空間對應 Node Pool 的部署策略。所有狀態均透過 GCS 儲存，設計目標為可於多專案中重複使用。
 
