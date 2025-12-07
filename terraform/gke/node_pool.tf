@@ -55,7 +55,7 @@ resource "google_container_node_pool" "default" {
       enable_secure_boot          = false
     }
   }
-
+ 
   timeouts {
     delete = "5m"
   }

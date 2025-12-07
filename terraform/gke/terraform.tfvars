@@ -3,9 +3,9 @@ network         = "default"
 service_account = "default"
 location        = "asia-east1"
 node_locations  = ["asia-east1-b", "asia-east1-c"]
-node_cidr       = "10.70.0.0/16"
-cluster_cidr    = "10.76.0.0/14"
-service_cidr    = "10.75.192.0/20"
+node_cidr       = "[NODE_CIDR]"
+cluster_cidr    = "[CLUSTER_CIDR]"
+service_cidr    = "[SERVICE_CIDR]"
 
 node_pool_configs = {
   "default" : {

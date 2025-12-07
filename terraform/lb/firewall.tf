@@ -8,7 +8,7 @@ resource "google_compute_firewall" "default" {
 
   direction = "INGRESS"
 
-  source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
+  source_ranges = ["source_range1", "source_range2"]
 
   allow {
     protocol = "all"

@@ -16,15 +16,15 @@ resource "google_container_cluster" "default" {
 
   private_cluster_config {
     enable_private_nodes   = true
-    master_ipv4_cidr_block = "10.0.0.0/28"
+    master_ipv4_cidr_block = "[MASTER_IPV4_CIDR_BLOCK]"
   }
 
   master_authorized_networks_config {
     cidr_blocks {
-      cidr_block = "125.227.153.230/32"
+      cidr_block = "[CIDR_BLOCK]"
     }
     cidr_blocks {
-      cidr_block = "61.31.168.102/32"
+      cidr_block = "[CIDR_BLOCK]"
     }
   }
 
